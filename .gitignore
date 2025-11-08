@@ -1,0 +1,89 @@
+# Model files (downloaded from Google Drive)
+*.h5
+models/
+AI Based Brain tumor detection/models/
+
+# Dataset and large files
+/path_to_extract_to
+Data/large_files/
+
+# Upload and report directories (generated dynamically)
+uploads/
+reports/
+*/uploads
+AI Based Brain tumor detection/uploads/
+AI Based Brain tumor detection/reports/
+
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# Environment variables (sensitive data)
+.env
+.env.local
+.env.production
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+AI Based Brain tumor detection/*.db
+AI Based Brain tumor detection/src/database/*.db
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+logs/
+*.tmp
+temp/
+tmp/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Test coverage
+htmlcov/
+.tox/
+.coverage
+.pytest_cache/
+.mypy_cache/
+
+# OS generated files
+*.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
