@@ -34,19 +34,18 @@ class RAGChatbot:
         try:
             data_dir = Path(__file__).resolve().parent.parent.parent / "Data"
             if data_dir.exists():
-                print(f"ℹ️  Initializing RAG knowledge base from PDFs at: {data_dir}")
+                print(f"Initializing RAG knowledge base from PDFs at: {data_dir}")
                 pdf_text = self._load_pdfs_text(data_dir)
                 if pdf_text and pdf_text.strip():
                     self._initialize_chain(pdf_text)
                 else:
-                    print("⚠️  No usable text found in PDFs. Chatbot will start without retrieval context.")
+                    print("No usable text found in PDFs. Chatbot will start without retrieval context.")
             else:
-                print(f"⚠️  Data directory not found at {data_dir}. Chatbot will start without retrieval context.")
+                print(f"Data directory not found at {data_dir}. Chatbot will start without retrieval context.")
         except Exception as e:
-            print(f"❌ Error initializing from PDFs: {e}")
+            print(f"Error initializing from PDFs: {e}")
     
     def update_report_content(self, report_content):
-        print("ℹ️  update_report_content called but ignored — this chatbot uses PDF knowledge base only.")
         return
     
     def _split_text(self, text, chunk_size=500, chunk_overlap=100):
@@ -65,13 +64,11 @@ class RAGChatbot:
     def _load_pdfs_text(self, data_dir: Path) -> str:
         
         if PyPDF2 is None:
-            print("⚠️  PyPDF2 not installed. Install it (pip install PyPDF2) to enable PDF context loading.")
             return ""
 
         texts = []
         pdf_paths = list(data_dir.glob("**/*.pdf"))
         if not pdf_paths:
-            print(f"⚠️  No PDF files found in {data_dir}")
             return ""
 
         for p in pdf_paths:
@@ -87,9 +84,8 @@ class RAGChatbot:
                             continue
                     joined = "\n".join(page_texts)
                     texts.append(f"\n\n--- {p.name} ---\n\n" + joined)
-                    print(f"ℹ️  Loaded {p.name} ({len(joined)} chars)")
             except Exception as e:
-                print(f"⚠️  Failed to read PDF {p}: {e}")
+                print(f"Failed to read PDF {p}: {e}")
 
         return "\n\n".join(texts)
     
@@ -112,15 +108,16 @@ class RAGChatbot:
                 llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
                 medical_prompt = f"""You are a friendly and knowledgeable AI medical assistant.
 
-            Give answer to the:
-            "{question}"
-            Use the retrieved context for giving answers.
+Answer the following question using the provided context as background knowledge:
+"{question}"
 
-            Guidelines:
-            - Use simple, empathetic language that anyone can understand.
-            - Do NOT prescribe medication or give direct treatment plans.
-            - If relevant, suggest consulting a neurologist or doctor for confirmation.
-            - Keep your answer short (2–4 paragraphs max)."""
+Guidelines:
+
+-Use clear, compassionate, and easy-to-understand language suitable for anyone.
+-Naturally incorporate the relevant information from the context to support your answer (do not mention or refer to the source directly).
+-Do not prescribe medication or provide specific treatment plans.
+-If appropriate, gently recommend consulting a doctor or neurologist for confirmation.
+-Keep your response concise — no more than 2–4 paragraphs."""
                 response = llm.predict(medical_prompt)
                 return response.strip()
             else:

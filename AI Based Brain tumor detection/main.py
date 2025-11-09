@@ -77,14 +77,13 @@ def get_model():
     try:
         print(f"🔄 Loading model from: {MODEL_PATH}")
         _model = tf_load_model(str(MODEL_PATH), compile=False, safe_mode=False)
-        print(f"✅ Model loaded successfully. Input shape: {_model.input_shape}")
+        print(f"Model loaded successfully.")
         return _model
     except Exception as e:
-        print(f"❌ Error loading model: {e}")
+        print(f"Error loading model: {e}")
         raise Exception(f"Failed to load model: {e}")
 
 def get_or_initialize_chatbot():
-    """Get pre-loaded chatbot instance"""
     global _chatbot
     if _chatbot is not None:
         return _chatbot
@@ -106,13 +105,12 @@ def prepare_image_for_prediction(image_path: Path) -> np.ndarray:
     return batch
 
 def download_model_from_google_drive():
-    """Download model from Google Drive if not exists"""
     if MODEL_PATH.exists() and MODEL_PATH.stat().st_size > 100000000:  # 100MB minimum
         print("✅ Model file already exists")
         return True
     
     try:
-        print("📥 Model file not found or corrupted. Downloading from Google Drive...")
+        print(" Model file not found or corrupted. Downloading from Google Drive...")
         GOOGLE_DRIVE_FILE_ID = "1u-MzNhyYRNX4HrciMzHm-YIy-ci5snrY"
         
         MODEL_PATH.parent.mkdir(exist_ok=True)
@@ -123,7 +121,6 @@ def download_model_from_google_drive():
         try:
             import gdown
         except ImportError:
-            print("📦 Installing gdown for reliable downloads...")
             import subprocess
             import sys
             subprocess.check_call([sys.executable, "-m", "pip", "install", "gdown"])
@@ -244,7 +241,7 @@ async def predict(
             "probabilities": {CLASS_NAMES[i]: float(preds[0][i]) for i in range(len(CLASS_NAMES))},
         }
 
-        # Generate AI report using utility functions
+        # Generate AI report 
         patient_info_with_prediction = {
             "name": name, 
             "age": age, 
@@ -254,10 +251,10 @@ async def predict(
             "confidence": confidence
         }
         
-        # Use report generator utility function
+        # Use report generator 
         report_data = generate_report(pred_label, patient_info_with_prediction)
         
-        # Generate PDF report using utility function
+        # Generate PDF report 
         report_filename = f"report_{session_id}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
         pdf_path = generate_pdf_report(
             patient_info=patient_info_with_prediction,
@@ -286,7 +283,7 @@ async def predict(
         except Exception:
             pass
 
-# ===================== CHAT ENDPOINT =====================
+# CHAT ENDPOINT
 
 @app.post("/chat")
 async def chat(
@@ -305,8 +302,7 @@ async def chat(
         # Use pre-loaded chatbot instance
         chatbot = get_or_initialize_chatbot()
         
-        # Generate response (this should be fast now)
-        print(f"🤖 Processing chat for session {session_id}: {message[:50]}...")
+        # Generate response
         bot_response = chatbot.answer_question(message)
         
         # Store conversation
@@ -327,7 +323,7 @@ async def chat(
         print(f"❌ Chat error: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Chat failed: {str(e)}")
 
-# ===================== STARTUP & SHUTDOWN =====================
+#STARTUP & SHUTDOWN
 
 @app.on_event("startup")
 async def startup_event():
@@ -345,32 +341,29 @@ async def startup_event():
         
         if model_ready:
             # Pre-load AI model
-            print("📦 Pre-loading TensorFlow model...")
             get_model()
-            print("✅ Model loaded successfully")
+            print("Model loaded successfully")
         else:
-            print("⚠️ Model not available - predictions will fail until model is configured")
+            print("Model not available - predictions will fail until model is configured")
         
         # Pre-load chatbot knowledge base
-        print("🤖 Pre-loading chatbot knowledge base...")
+        print("Pre-loading chatbot knowledge base...")
         get_or_initialize_chatbot()
-        print("✅ Chatbot loaded successfully")
+        print("Chatbot loaded successfully")
         
-        print("\n✅ Server ready at http://localhost:8000")
-        print("📊 Endpoints:")
+        print("\nServer ready at http://localhost:8000")
+        print(" Endpoints:")
         print("   - POST /prediction (MRI analysis)")
         print("   - GET /report/{filename} (Download report)")
         print("   - POST /chat (AI chatbot)")
         print("="*50 + "\n")
         
     except Exception as e:
-        print(f"❌ Startup error: {str(e)}")
-        print("⚠️ System may have reduced functionality")
+        print(f"Startup error: {str(e)}")
 
 @app.on_event("shutdown")
 async def shutdown_event():
-    """Cleanup on shutdown"""
-    print("\n🛑 Server shutting down...")
+    print("\nServer shutting down...")
 
 if __name__ == "__main__":
     import uvicorn
