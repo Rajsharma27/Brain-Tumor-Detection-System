@@ -75,7 +75,7 @@ def get_model():
         raise Exception(f"Model file not found: {MODEL_PATH}")
         
     try:
-        print(f"🔄 Loading model from: {MODEL_PATH}")
+        print(f"Loading model from: {MODEL_PATH}")
         _model = tf_load_model(str(MODEL_PATH), compile=False, safe_mode=False)
         print(f"Model loaded successfully.")
         return _model
@@ -89,19 +89,19 @@ def get_or_initialize_chatbot():
         return _chatbot
     
     try:
-        print("🔄 Loading chatbot knowledge base...")
+        print("Loading chatbot knowledge base...")
         _chatbot = get_chatbot()
         print("✅ Chatbot knowledge base loaded successfully")
         return _chatbot
     except Exception as e:
-        print(f"❌ Error loading chatbot: {e}")
+        print(f"Error loading chatbot: {e}")
         raise Exception(f"Failed to load chatbot: {e}")
 
 def prepare_image_for_prediction(image_path: Path) -> np.ndarray:
-    print("🔄 Loading and preprocessing image...")
+    print("Loading and preprocessing image...")
     loaded_image = load_image_cv2(image_path)
     batch = preprocess_image(loaded_image, target_size=(224, 224), normalize=True)
-    print(f"📊 Image preprocessed. Final shape: {batch.shape}")
+    print(f"Image preprocessed. Final shape: {batch.shape}")
     return batch
 
 def download_model_from_google_drive():
@@ -115,7 +115,7 @@ def download_model_from_google_drive():
         
         MODEL_PATH.parent.mkdir(exist_ok=True)
         
-        print(f"🔄 Downloading model from Google Drive...")
+        print(f"Downloading model from Google Drive...")
         
         # Use gdown for reliable large file downloads
         try:
@@ -133,15 +133,15 @@ def download_model_from_google_drive():
         # Check if download was successful
         final_size = MODEL_PATH.stat().st_size
         if final_size > 100 * 1024 * 1024:  # Should be > 100MB
-            print(f"✅ Model downloaded successfully: {final_size / 1024 / 1024:.2f} MB")
+            print(f"Model downloaded successfully: {final_size / 1024 / 1024:.2f} MB")
             return True
         else:
-            print(f"❌ Downloaded file too small: {final_size / 1024 / 1024:.2f} MB")
+            print(f"Downloaded file too small: {final_size / 1024 / 1024:.2f} MB")
             return False
             
     except Exception as e:
-        print(f"❌ Error downloading model: {str(e)}")
-        print("💡 Alternative: Manually download the model from Google Drive and place it in the models folder")
+        print(f"Error downloading model: {str(e)}")
+        print("Alternative: Manually download the model from Google Drive and place it in the models folder")
         return False
 
 # API Routes
@@ -173,7 +173,7 @@ async def download_report(filename: str):
         if not report_path.exists():
             raise HTTPException(status_code=404, detail="Report not found")
         
-        print(f"✅ Serving report: {filename}")
+        print(f" Serving report: {filename}")
         return FileResponse(
             path=str(report_path),
             filename=filename,
@@ -183,7 +183,7 @@ async def download_report(filename: str):
     except HTTPException as e:
         raise e
     except Exception as e:
-        print(f"❌ Error serving report: {str(e)}")
+        print(f" Error serving report: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Report download failed: {str(e)}")
 
 # PREDICTION ENDPOINT 
@@ -218,7 +218,7 @@ async def predict(
 
         # Load model and predict
         model = get_model()
-        print("🧠 Running model prediction...")
+        print(" Running model prediction...")
         preds = model.predict(batch)
         
         if preds.ndim != 2 or preds.shape[1] != len(CLASS_NAMES):
@@ -228,7 +228,7 @@ async def predict(
         pred_label = CLASS_NAMES[pred_idx]
         confidence = float(preds[0][pred_idx])
 
-        print(f"✅ Predicted: {pred_label} ({confidence:.4f})")
+        print(f" Predicted: {pred_label} ({confidence:.4f})")
 
         # Prepare response data
         prediction_result = {
@@ -312,7 +312,7 @@ async def chat(
             "timestamp": datetime.now().isoformat()
         })
         
-        print(f"✅ Chat response generated for session {session_id}")
+        print(f" Chat response generated for session {session_id}")
         return ChatResponse(
             session_id=session_id,
             user_message=message,
@@ -327,16 +327,13 @@ async def chat(
 
 @app.on_event("startup")
 async def startup_event():
-    """
-    Pre-load model and chatbot on startup for faster response times
-    """
     print("\n" + "="*50)
-    print("🚀 BRAIN TUMOR DETECTION API - STARTING UP")
+    print(" BRAIN TUMOR DETECTION API - STARTING UP")
     print("="*50)
     
     try:
         # Download model from Google Drive if needed
-        print("📦 Checking model availability...")
+        print(" Checking model availability...")
         model_ready = download_model_from_google_drive()
         
         if model_ready:

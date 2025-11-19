@@ -93,7 +93,7 @@ class RAGChatbot:
         chunks = self._split_text(content)
         self.vector_store = self._create_vector_store(chunks)
         
-        llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
+        llm = ChatGoogleGenerativeAI(model="gemini-2.5-pro")
         
         self.chain = ConversationalRetrievalChain.from_llm(
             llm=llm,

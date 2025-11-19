@@ -30,18 +30,12 @@ REPORTS_DIR.mkdir(exist_ok=True)
 
 
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
-if not GOOGLE_API_KEY:
-    print("⚠️  WARNING: GOOGLE_API_KEY not found in environment variables")
-else:
-    genai.configure(api_key=GOOGLE_API_KEY)
-    print("✅ Google Generative AI configured successfully")
-
 
 def generate_report(prediction, patient_info):
-    
+
     try:
         
-        model = genai.GenerativeModel('gemini-2.0-flash-exp')
+        model = genai.GenerativeModel('gemini-2.0-flash')
         
         prompt = f"""
 You are an expert medical AI assistant specializing in brain tumor analysis and diagnosis. 
@@ -98,7 +92,7 @@ Be professional, accurate, and empathetic. This is for a real patient who needs 
         response = model.generate_content(prompt)
         response_text = response.text
         
-        print(f"✅ Gemini API Response received successfully")
+        print(f"API Response received successfully")
         
         # Parse the response into sections
         report_data = {
@@ -139,12 +133,12 @@ Be professional, accurate, and empathetic. This is for a real patient who needs 
         
         for section_name, content in report_data.items():
             if not content:
-                print(f"⚠️  Warning: {section_name} is empty, using fallback")
+                print(f"  Warning: {section_name} is empty, using fallback")
         
         return report_data
         
     except Exception as e:
-        print(f"❌ Gemini API Error: {str(e)}")
+        print(f" Gemini API Error: {str(e)}")
 
 #making the report
 def generate_pdf_report(patient_info, description, precautions, things_to_remember, output_filename):
@@ -300,10 +294,10 @@ def generate_pdf_report(patient_info, description, precautions, things_to_rememb
     # Build PDF
     try:
         doc.build(story)
-        print(f"✅ PDF Report generated: {pdf_path}")
+        print(f" PDF Report generated: {pdf_path}")
         return pdf_path
     except Exception as e:
-        print(f"❌ PDF generation error: {str(e)}")
+        print(f" PDF generation error: {str(e)}")
         raise
 
 
@@ -419,7 +413,7 @@ async def generate_pdf(
         }
         
     except Exception as e:
-        print(f"❌ PDF generation error: {str(e)}")
+        print(f" PDF generation error: {str(e)}")
         raise HTTPException(status_code=500, detail=f"PDF generation failed: {str(e)}")
 
 
@@ -441,8 +435,3 @@ async def download_report(filename: str):
     )
 
 
-if __name__ == "__main__":
-    import uvicorn
-    print("🚀 Starting Brain Tumor Report Generator API...")
-    print(f"📁 Reports directory: {REPORTS_DIR.absolute()}")
-    uvicorn.run(app, host="0.0.0.0", port=8001)
