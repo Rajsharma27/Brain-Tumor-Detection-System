@@ -92,10 +92,6 @@ python main.py
 
 ## 📦 Installation
 
-### Prerequisites
-- Python 3.8+
-- 8GB+ RAM
-
 ### Step-by-Step Setup
 
 1. **Clone & Navigate**
