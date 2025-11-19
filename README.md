@@ -5,7 +5,7 @@
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.104.1-green?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
 
-> 🎯 **AI-powered brain tumor detection system using VGG16 architecture for MRI analysis with automated report generation.**
+> 🎯 **AI-powered brain tumor detection system  for MRI analysis with automated report generation.**
 
 ---
 
