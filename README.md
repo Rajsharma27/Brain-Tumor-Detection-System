@@ -28,8 +28,8 @@
 - **🔬 Multi-Class Classification**: Detects 4 types of brain conditions (Glioma, Meningioma, Pituitary, No Tumor)
 - **⚡ Real-Time Analysis**: Instant MRI scan processing and results
 - **📊 AI-Generated Reports**: Medical reports with recommendations using local LLM
-- **🤖 Intelligent Chatbot**: Medical Q&A assistant powered by Ollama
-- **📱 Web Interface**: HTML/CSS/JavaScript frontend
+- **🤖 RAG Chatbot**: Medical Q&A assistant powered by knowledge base
+- **📱 Streamlit Interface**: Interactive web application
 - **🔌 RESTful API**: FastAPI backend
 - **📄 PDF Generation**: Professional medical report downloads
 
@@ -40,8 +40,8 @@
 | Category | Technologies |
 |----------|-------------|
 | **Backend** | Python 3.8+, FastAPI, TensorFlow 2.15.0 |
-| **Frontend** | HTML/CSS/JavaScript |
-| **AI/ML** | VGG16 (TensorFlow/Keras), OpenCV, Ollama LLM |
+| **Frontend** | Streamlit |
+| **AI/ML** | VGG16 (TensorFlow/Keras), OpenCV, Ollama LLM, RAG Chatbot, Knowledge Base |
 | **Data Processing** | Pillow, ReportLab (PDF) |
 
 ---
@@ -84,7 +84,7 @@ python main.py
 ```
 
 **Access Points:**
-- 🌍 **Web Interface**: http://localhost:3000  
+- 🌍 **Streamlit App**: http://localhost:8501  
 - ⚡ **API Docs**: http://localhost:8000/docs
 - 📊 **Health Check**: http://localhost:8000/health
 
@@ -95,7 +95,6 @@ python main.py
 ### Prerequisites
 - Python 3.8+
 - 8GB+ RAM
-- 5GB storage space
 
 ### Step-by-Step Setup
 
@@ -125,22 +124,18 @@ ollama serve
 ollama pull gemma2:2b
 ```
 
-5. **Start Services**
+5. **Start Application**
 ```bash
-# Backend API
+# Start Streamlit App (includes backend)
 python main.py
-
-# Frontend Server (new terminal)
-cd ../frontend
-python -m http.server 3000
 ```
 
 ---
 
 ## 📊 Usage
 
-### 🖥️ Web Interface
-1. Open browser → `http://localhost:3000`
+### 🖥️ Streamlit Interface
+1. Open browser → `http://localhost:8501`
 2. Upload MRI scan (PNG, JPG, TIFF)
 3. Fill patient details
 4. Click "Analyze Brain Scan"
@@ -208,24 +203,9 @@ This project is licensed under the **MIT License**.
 
 - **🧠 TensorFlow Team**: For the deep learning framework
 - **⚡ FastAPI**: For the web framework  
-- **🤖 Ollama**: For local LLM inference
-- **👥 Medical AI Community**: For inspiration and support
+- **🤖 Gemini**: For chatbot and report generation
+- **🎨 Streamlit**: For the interactive web interface
 
 ---
 
-## 📞 Support & Contact
 
-- **📖 Documentation**: Check this README and code comments
-- **🐛 Issues**: Open an issue on GitHub
-- **📧 Email**: [rajsharma27.dev@gmail.com]
-- **🌐 GitHub**: [Rajsharma27/Brain-Tumor-Detection-System](https://github.com/Rajsharma27/Brain-Tumor-Detection-System)
-
----
-
-<div align="center">
-
-### ⭐ Star this repository if it helped you!
-
-**Made with ❤️ for the medical AI community**
-
-</div>
