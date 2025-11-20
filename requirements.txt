@@ -6,7 +6,7 @@ python-multipart
 # Machine Learning and AI
 tensorflow
 numpy
-scikit-learn==1.3.2
+scikit-learn
 
 # Image Processing
 Pillow
@@ -15,7 +15,7 @@ opencv-python-headless
 # RAG and LangChain (Compatible versions)
 langchain
 langchain-community
-langchain-core=
+langchain-core
 langchain-huggingface
 langchain-google-genai
 faiss-cpu
