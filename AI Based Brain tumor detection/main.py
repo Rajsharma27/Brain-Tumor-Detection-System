@@ -15,6 +15,9 @@ from typing import Optional, Dict
 import tensorflow as tf
 tf.get_logger().setLevel('ERROR')
 
+if "PORT" not in os.environ:
+    os.environ["PORT"] = "10000"
+
 # Import utility functions
 from src.helpers.preprocessing import load_image_cv2, preprocess_image
 from tensorflow.keras.models import load_model as tf_load_model
