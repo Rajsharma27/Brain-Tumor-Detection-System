@@ -499,63 +499,9 @@ uvicorn main:app --port 8001
 - Close other applications
 - Consider using GPU
 
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-### Development Guidelines
-
-- Follow PEP 8 style guide
-- Add docstrings to all functions
-- Write unit tests for new features
-- Update documentation as needed
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
 
-## 👥 Authors
 
-- **Your Name** - *Initial work* - [YourGitHub](https://github.com/yourusername)
-
-## 🙏 Acknowledgments
-
-- TensorFlow team for the deep learning framework
-- LangChain for RAG capabilities
-- Google for Gemini AI API
-- Streamlit for the amazing UI framework
-- FastAPI for the modern web framework
-- Medical community for knowledge base resources
-
-## 📞 Contact
-
-For questions, suggestions, or issues:
-
-- **Email**: your.email@example.com
-- **GitHub Issues**: [Create an issue](https://github.com/yourusername/brain-tumor-detection/issues)
-- **LinkedIn**: [Your LinkedIn](https://linkedin.com/in/yourprofile)
-
-## 📈 Roadmap
-
-- [ ] Multi-language support
-- [ ] Enhanced model with attention mechanisms
-- [ ] Real-time collaboration features
-- [ ] Mobile application
-- [ ] Integration with DICOM viewers
-- [ ] Advanced analytics dashboard
-- [ ] Batch processing capabilities
-- [ ] User authentication and authorization
-
-## ⚠️ Disclaimer
-
-**IMPORTANT**: This software is intended for research and educational purposes only. It is NOT a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of qualified healthcare providers with any questions regarding medical conditions.
-
----
-
-Made with ❤️ for advancing healthcare through AI
