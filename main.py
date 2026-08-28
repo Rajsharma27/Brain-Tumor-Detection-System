@@ -348,10 +348,8 @@ async def startup_event():
         else:
             print("Model not available - predictions will fail until model is configured")
         
-        # Pre-load chatbot knowledge base
-        print("Pre-loading chatbot knowledge base...")
-        get_or_initialize_chatbot()
-        print("Chatbot loaded successfully")
+        # Load the chatbot on the first chat request to keep startup memory low.
+        print("Chatbot will be initialized on the first chat request")
         
         print("\nServer ready at http://localhost:8000")
         print(" Endpoints:")
