@@ -75,9 +75,11 @@ def get_model():
     if _model is not None:
         return _model
     
-    if not MODEL_PATH.exists():
-        print(f"❌ FATAL ERROR: Model file not found at: {MODEL_PATH}")
-        raise Exception(f"Model file not found: {MODEL_PATH}")
+    if not MODEL_PATH.exists() or MODEL_PATH.stat().st_size <= 100000000:
+        print("Model is not available locally. Downloading it now...")
+        if not download_model_from_google_drive():
+            print(f"❌ FATAL ERROR: Model file not found at: {MODEL_PATH}")
+            raise Exception(f"Model file not found: {MODEL_PATH}")
         
     try:
         print(f"Loading model from: {MODEL_PATH}")
@@ -337,19 +339,9 @@ async def startup_event():
     print("="*50)
     
     try:
-        # Download model from Google Drive if needed
-        print(" Checking model availability...")
-        model_ready = download_model_from_google_drive()
-        
-        if model_ready:
-            # Pre-load AI model
-            get_model()
-            print("Model loaded successfully")
-        else:
-            print("Model not available - predictions will fail until model is configured")
-        
-        # Load the chatbot on the first chat request to keep startup memory low.
-        print("Chatbot will be initialized on the first chat request")
+        # Defer model and chatbot loading until their first requests to keep
+        # startup memory low and let Render detect the listening port quickly.
+        print("Model and chatbot will be initialized on their first requests")
         
         print("\nServer ready at http://localhost:8000")
         print(" Endpoints:")
