@@ -41,6 +41,7 @@ venv/
 env/
 ENV/
 .venv/
+reset_env.bat
 
 # Environment variables (sensitive data)
 .env
