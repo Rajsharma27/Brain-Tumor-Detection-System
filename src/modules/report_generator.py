@@ -29,13 +29,16 @@ REPORTS_DIR = Path("reports")
 REPORTS_DIR.mkdir(exist_ok=True)
 
 
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY") or os.getenv("GOOGLE-API-KEY")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.6-flash")
+if GOOGLE_API_KEY:
+    genai.configure(api_key=GOOGLE_API_KEY)
 
 def generate_report(prediction, patient_info):
 
     try:
         
-        model = genai.GenerativeModel('gemini-2.0-flash')
+        model = genai.GenerativeModel(GEMINI_MODEL)
         
         prompt = f"""
 You are an expert medical AI assistant specializing in brain tumor analysis and diagnosis. 
